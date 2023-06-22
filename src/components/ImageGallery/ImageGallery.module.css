@@ -10,3 +10,7 @@
     margin-left: auto;
     margin-right: auto;
   }
+  .ErrorMessage {
+    margin: 0 auto;
+    font-size: 25px;
+  }
