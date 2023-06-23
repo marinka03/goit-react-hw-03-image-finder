@@ -24,25 +24,22 @@ class App extends Component {
     }
   }
 
-  requestListImages = (SearchValue, currentPage) => {
+  requestListImages = async (SearchValue, currentPage) => {
     this.setState(() => ({ isFetching: true }));
-
-    setTimeout(async () => {
-      try {
-        const { hits } = await searchPhotoApi(SearchValue, currentPage);  //ЗАПИТ НА СЕРВЕР
-        if (currentPage === 1) {
-          this.setState(() => ({ images: hits }));
-        } else {
-          this.setState(state => ({
-            images: [...state.images, ...hits],
-          }));
-        }
-      } catch (error) {
-        this.setState(() => ({ errorMessage: error.message }));
-      } finally {
-        this.setState(() => ({ isFetching: false }));
+    try {
+      const { hits } = await searchPhotoApi(SearchValue, currentPage); //ЗАПИТ НА СЕРВЕР
+      if (currentPage === 1) {
+        this.setState(() => ({ images: hits }));
+      } else {
+        this.setState(state => ({
+          images: [...state.images, ...hits],
+        }));
       }
-    }, 1000);
+    } catch (error) {
+      this.setState(() => ({ errorMessage: error.message }));
+    } finally {
+      this.setState(() => ({ isFetching: false }));
+    }
   };
 
   hendleSubmitForm = nameFromForm => {
